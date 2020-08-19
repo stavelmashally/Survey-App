@@ -37,7 +37,7 @@ passport.use(
             .save()
             .then(user => done(null, user));
         }
-      });
+      }).catch((e) => console.error(e));
     }
   )
 );
