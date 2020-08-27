@@ -33,7 +33,7 @@ require('./routes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   // Serve up production assets
-  app.use(express.static('/client/build'));
+  app.use(express.static('client/build'));
 
   // Serve up the index.html
   const path = require('path');
