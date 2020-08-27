@@ -1,22 +1,19 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const mongoose = require('mongoose');
 const keys = require('../config/keys');
 
-// users collection
-const User = mongoose.model('users');
+const User = require('../models/User');
 
-// generate cookie to identify the user
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-// identify the user from cookie
 passport.deserializeUser((id, done) => {
-  User.findById(id).then(user => done(null, user));
+  User.findById(id).then(user => {
+    done(null, user);
+  });
 });
 
-// Initialize Google OAuth authentication
 passport.use(
   new GoogleStrategy(
     {
@@ -25,19 +22,15 @@ passport.use(
       callbackURL: '/auth/google/callback',
       proxy: true,
     },
-    (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
-      User.findOne({ googleId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          // user is already have a record in the db
-          done(null, existingUser);
-        } else {
-          // create a new user record in the db
-          new User({ googleId: profile.id })
-            .save()
-            .then(user => done(null, user));
-        }
-      }).catch((e) => console.error(e));
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await User.findOne({ googleId: profile.id });
+
+      if (existingUser) {
+        return done(null, existingUser);
+      }
+
+      const user = await new User({ googleId: profile.id }).save();
+      done(null, user);
     }
   )
 );
