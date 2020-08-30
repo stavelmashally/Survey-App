@@ -7,6 +7,9 @@ import reduxThunk from 'redux-thunk';
 import reducers from './reducers';
 import App from './components/App';
 
+import axios from 'axios';
+window.axios = axios;
+
 const enhancers = [
   applyMiddleware(reduxThunk),
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
