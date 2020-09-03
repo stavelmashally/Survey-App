@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchUser } from '../actions';
+
 import Header from './Header';
-import Landing from './Landing';
-import Dashboard from './Dashboard';
-import SurveyNew from './SurveyNew';
+import Landing from '../pages/Landing';
+import Dashboard from '../pages/Dashboard';
+import SurveyNew from '../pages/SurveyNew';
 
 class App extends Component {
   componentDidMount() {
