@@ -1,30 +1,20 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { reduxForm } from 'redux-form';
 import SurveyForm from '../components/surveys/SurveyForm';
 import SurveyFormReview from '../components/surveys/SurveyFormReview';
 
-class SurveyNew extends Component {
-  state = { showFormReview: false };
+const SurveyNew = () => {
+  const [showFormReview, setShowFormReview] = useState(false);
 
-  renderContent() {
-    if (this.state.showFormReview) {
-      return (
-        <SurveyFormReview
-          onCancel={() => this.setState({ showFormReview: false })}
-        />
-      );
-    }
-
-    return (
-      <SurveyForm
-        onSurveySubmit={() => this.setState({ showFormReview: true })}
-      />
-    );
-  }
-
-  render() {
-    return <div className="card-panel">{this.renderContent()}</div>;
-  }
-}
+  return (
+    <div className="card-panel">
+      {showFormReview ? (
+        <SurveyFormReview onCancel={() => setShowFormReview(false)} />
+      ) : (
+        <SurveyForm onSurveySubmit={() => setShowFormReview(true)} />
+      )}
+    </div>
+  );
+};
 
 export default reduxForm({ form: 'surveyForm' })(SurveyNew);

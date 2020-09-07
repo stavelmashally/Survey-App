@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SurveyField({ input, label, meta: { error, touched } }){
+const SurveyField = ({ input, label, meta: { error, touched } }) => {
   return (
     <div>
       <label>{label}</label>

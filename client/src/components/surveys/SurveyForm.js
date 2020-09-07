@@ -1,40 +1,42 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 import validateEmails from '../../utils/validateEmails';
 import SurveyField from './SurveyField';
 import formFields from './formFields';
 
-class SurveyForm extends Component {
-  renderFields() {
-    return formFields.map(field => (
-      <Field key={field.name} component={SurveyField} type="text" {...field} />
-    ));
-  }
+const SurveyForm = ({ handleSubmit, onSurveySubmit }) => {
+  const surveyFormFields = formFields.map(({ name, label }) => (
+    <Field
+      key={name}
+      type="text"
+      name={name}
+      label={label}
+      component={SurveyField}
+    />
+  ));
 
-  render() {
-    return (
-      <div>
-        <h5>Create new survey</h5>
-        <form
-          onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}
-          style={{ marginTop: '20px' }}
-        >
-          {this.renderFields()}
-          <Link to="/surveys" className="red btn-flat white-text">
-            Cancel
-          </Link>
-          <button type="submit" className="teal btn-flat right white-text">
-            Next
-            <i className="material-icons right">done</i>
-          </button>
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <h5>Create new survey</h5>
+      <form
+        onSubmit={handleSubmit(onSurveySubmit)}
+        style={{ marginTop: '20px' }}
+      >
+        {surveyFormFields}
+        <Link to="/surveys" className="red btn-flat white-text">
+          Cancel
+        </Link>
+        <button type="submit" className="teal btn-flat right white-text">
+          Next
+          <i className="material-icons right">done</i>
+        </button>
+      </form>
+    </div>
+  );
+};
 
-function validate(values) {
+const validate = values => {
   const errors = {};
 
   errors.recipients = validateEmails(values.recipients || '');
@@ -46,7 +48,7 @@ function validate(values) {
   });
 
   return errors;
-}
+};
 
 export default reduxForm({
   validate,

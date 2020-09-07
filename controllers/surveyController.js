@@ -1,30 +1,31 @@
 const SurveyService = require('../services/SurveyService');
-const MailerService = require('../services/MailerService');
-const UserService = require('../services/UserService');
-const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
-exports.createSurvey = async (req, res, next) => {
+const surveyService = new SurveyService();
+
+exports.getSurveys = async (req, res) => {
+  const surveys = await surveyService.getUserSurveys(req.user.id);
+
+  return res.send(surveys);
+};
+
+exports.createSurvey = async (req, res) => {
   try {
-    const userService = new UserService();
-    const surveyService = new SurveyService();
-
-    const survey = await surveyService.createSurvey(req.body, req.user.id);
-
-    // Initialize and send the survey emails to recipients
-    const mailerService = new MailerService(survey, surveyTemplate(survey));
-    await mailerService.send();
-
-    // Storing the survey after the emails has been sent
-    await surveyService.save(survey);
-
-    // Substracting the user credits
-    const user = await userService.substractCredits(req.user);
-
-    // Respond with the updated user details
-    return res.send(user);
+    const updatedUser = await surveyService.createAndSendSurvey(
+      req.body,
+      req.user
+    );
+    // Respond with the updated user
+    return res.send(updatedUser);
   } catch (error) {
     return res.status(422).send(error);
   }
+};
+
+exports.updateSurveys = async (req, res) => {
+  surveyService.updateSurveys(req.body);
+
+  // Sendgrid doesnt expects a response
+  return res.send({});
 };
 
 exports.surveyFeedback = async (req, res) => {
