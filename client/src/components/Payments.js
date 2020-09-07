@@ -6,7 +6,7 @@ import StripeCheckout from 'react-stripe-checkout';
 const Payments = ({ handleToken }) => {
   return (
     <StripeCheckout
-      name="Emaily"
+      name="Survey App"
       description="5$ for 5 surveys credits"
       amount={500}
       token={token => handleToken(token)}

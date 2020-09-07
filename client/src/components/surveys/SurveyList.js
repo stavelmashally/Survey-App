@@ -13,8 +13,8 @@ const renderSurveys = surveys => {
         </p>
       </div>
       <div className="card-action">
-        <a>Yes: {survey.yes}</a>
-        <a role="button"> No: {survey.no}</a>
+        <a className="teal-text">Yes: {survey.yes}</a>
+        <a className="teal-text"> No: {survey.no}</a>
       </div>
     </div>
   ));
