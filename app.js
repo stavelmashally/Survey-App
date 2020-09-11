@@ -15,7 +15,6 @@ mongoose.connect(keys.mongoURI, {
 const app = express();
 
 app.use(bodyParser.json());
-
 app.use(
   cookieSession({
     // one month expirasion in milliseconds
@@ -23,7 +22,6 @@ app.use(
     keys: [keys.cookieKey],
   })
 );
-
 // use cookie session for authentication
 app.use(passport.initialize());
 app.use(passport.session());
