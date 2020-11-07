@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import SurveyList from '../components/surveys/SurveyList';
+import React from 'react'
+import {Link} from 'react-router-dom'
+import SurveyList from '../components/surveys/SurveyList'
 
 const Dashboard = () => {
   return (
@@ -12,7 +12,7 @@ const Dashboard = () => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

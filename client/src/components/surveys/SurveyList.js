@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { fetchSurveys } from '../../actions';
+import React, {useEffect} from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import {fetchSurveys} from '../../actions'
 
-const renderSurveys = surveys => {
-  return surveys.reverse().map(survey => (
+const renderSurveys = surveys =>
+  surveys.reverse().map(survey => (
     <div className="card darken-1" key={survey._id}>
       <div className="card-content">
         <span className="card-title">{survey.title}</span>
@@ -17,17 +17,17 @@ const renderSurveys = surveys => {
         <a className="teal-text"> No: {survey.no}</a>
       </div>
     </div>
-  ));
-};
+  ))
 
-const SurveyList = ({ surveys, fetchSurveys }) => {
+const SurveyList = () => {
+  const surveys = useSelector(({surveys}) => surveys)
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    fetchSurveys();
-  }, [fetchSurveys]);
+    dispatch(fetchSurveys())
+  }, [])
 
-  return <div>{renderSurveys(surveys)}</div>;
-};
+  return <div>{renderSurveys(surveys)}</div>
+}
 
-const mapStateToProps = ({ surveys }) => ({ surveys });
-
-export default connect(mapStateToProps, { fetchSurveys })(SurveyList);
+export default SurveyList

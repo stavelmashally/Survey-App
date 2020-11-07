@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { fetchUser } from '../actions';
-import Header from './Header';
-import Landing from '../pages/Landing';
-import Dashboard from '../pages/Dashboard';
-import SurveyNew from '../pages/SurveyNew';
+import React, {useEffect} from 'react'
+import {BrowserRouter, Route} from 'react-router-dom'
+import {connect, useDispatch} from 'react-redux'
+import {fetchUser} from '../actions'
+import Header from './Header'
+import Landing from '../pages/Landing'
+import Dashboard from '../pages/Dashboard'
+import SurveyNew from '../pages/SurveyNew'
 
-const App = ({ fetchUser }) => {
+const App = () => {
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+    dispatch(fetchUser())
+  }, [])
 
   return (
     <div>
@@ -23,7 +25,7 @@ const App = ({ fetchUser }) => {
         </div>
       </BrowserRouter>
     </div>
-  );
-};
+  )
+}
 
-export default connect(null, { fetchUser })(App);
+export default App
